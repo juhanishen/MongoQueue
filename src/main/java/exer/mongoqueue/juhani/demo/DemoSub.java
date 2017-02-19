@@ -32,7 +32,7 @@ public class DemoSub extends Thread {
 	}
 
 	public void run() {
-		int last_id = 0;
+		int last_id = -1;
 		while (true) {
 			DBCursor cur = getCursor(cappedCol, DemoConstants.Topic, last_id);
 			Iterator<DBObject> it = cur.iterator();
