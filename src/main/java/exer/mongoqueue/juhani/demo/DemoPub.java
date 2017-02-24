@@ -13,7 +13,6 @@ public class DemoPub {
 	private MongoClient client;
 	private DB db;
 	private DBCollection cappedCol;
-	private static int nameIndex =0;
 	
 	public DemoPub(){
 		client = new MongoClient();
@@ -25,10 +24,9 @@ public class DemoPub {
 		int i = MongoSequence.getInstance().getNextSeq(DemoConstants.Topic);
 		DBObject doc = new BasicDBObject()
 				.append(DemoConstants.cappedColTopicFN, DemoConstants.Topic)
-				.append(DemoConstants.cappedColNameFN,"name"+nameIndex )
-		        .append(DemoConstants.CursorTsFN,i);
+				.append(DemoConstants.cappedColNameFN,"name"+i )
+		        .append(DemoConstants.cappedColCursorFN,i);
 		System.out.println("publisher is going to publish number "+i+"th message");
-		nameIndex++;
 		cappedCol.insert(doc);
 	}
 }

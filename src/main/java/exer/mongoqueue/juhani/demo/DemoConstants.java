@@ -9,13 +9,14 @@ class DemoConstants {
     public static final String cappedColTopicFN = "topic";
     public static final String cappedColOptionTailableFN ="tailable";
     public static final String cappedColOptionAwaitDataFN = "await_data";
+    public static final String cappedColCursorFN ="ts"; //shall not change in anyway
     
     //db.pub_sub_seq.insert({¡°topic¡±:"topic1","value":NumberInt(0)})  
     public static final String SequenceCollectionName = "pub_sub_seq";
     public static final String SequenceKeyFN = "topic";
     public static final String SequenceValueFN = "value";
     		
-    public static final String CursorTsFN ="ts"; //shall not change in anyway		
+    		
     		
 
 }

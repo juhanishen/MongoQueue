@@ -22,9 +22,15 @@ public class DemoSub extends Thread {
 
 	public DBCursor getCursor(DBCollection collection, String topic, int last_id) {
 		DBObject options = new BasicDBObject().append(DemoConstants.cappedColOptionTailableFN, true)
-				.append(DemoConstants.cappedColOptionAwaitDataFN, true);
-		DBObject ts = new BasicDBObject("$gt", last_id);
-		DBObject spec = new BasicDBObject().append(DemoConstants.CursorTsFN, ts).append(DemoConstants.cappedColTopicFN,
+				.append(DemoConstants.cappedColOptionAwaitDataFN, true)
+				.append(DemoConstants.cappedColTopicFN, true)
+				.append(DemoConstants.cappedColNameFN,true)
+				.append(DemoConstants.cappedColCursorFN, true);
+		
+		DBObject index = new BasicDBObject("$gt", last_id);
+		BasicDBObject ts = new BasicDBObject(DemoConstants.cappedColCursorFN,index);
+		
+		DBObject spec = ts.append(DemoConstants.cappedColTopicFN,
 				topic);
 		DBCursor cur = collection.find(spec, options);
 		cur = cur.addOption(8);
@@ -38,8 +44,12 @@ public class DemoSub extends Thread {
 			Iterator<DBObject> it = cur.iterator();
 			while (it.hasNext()) {
 				DBObject obj = it.next();
-				System.out.println("name is:"+obj.get(DemoConstants.cappedColNameFN));				
-				last_id=((Integer)obj.get(DemoConstants.CursorTsFN)).intValue();
+				System.out.println("name is:"+(String) obj.get(DemoConstants.cappedColNameFN));
+				try{
+				    last_id= (int) ((Double)obj.get(DemoConstants.cappedColCursorFN)).doubleValue();
+				}catch(ClassCastException ce){
+				    last_id= ((Integer)obj.get(DemoConstants.cappedColCursorFN)).intValue();
+				}
 				System.out.println("last index is:"+last_id);
 			}
 			try {
